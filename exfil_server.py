@@ -3,6 +3,8 @@
 """
 Simple HTTP server to exfil data via GET or POST requests
 
+Author: boxalarm
+
 - Will automatically base64 / URL decode any query parameter or JSON field with the name 'data' (if --decode used)
 - For POST requests, use JSON
 - If you're exfiling base64 encoded data, make sure it's in a query parameter or JSON field named 'data'
@@ -10,15 +12,15 @@ Simple HTTP server to exfil data via GET or POST requests
 - Use https with --secure (must first generate self-signed cert - see below)
 
 Usage: 
-    python3 exfil_server.py --decode
-    python3 exfil_server.py -p 8080
-    python3 exfil_server.py --secure
-    python3 exfil_server.py -p 80 -s -d
+    python3 exfil_server.py --decode        # automatically base64 decodes anything in "data" query param / JSON field
+    python3 exfil_server.py -p 8080         # binds to port 8080
+    python3 exfil_server.py --secure        # uses HTTPS
+    python3 exfil_server.py -p 80 -s -d     # binds to port 80, uses HTTPS, auto decodes
 
-Example POST request:
+Example POST request (for testing):
     curl -X POST http://localhost:8085/ -H "Content-Type: application/json" -d '{"data": "test123"}'
 
-Generate self-signed cert (use with --secure):
+HTTPS setup (one-time) - generate self-signed cert (use with --secure):
     openssl req -new -x509 -keyout server.pem -out server.pem -days 365 -nodes
 """
 
