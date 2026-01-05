@@ -3,8 +3,6 @@
 """
 Simple HTTP server to exfil data via GET or POST requests
 
-Author: boxalarm
-
 - Will automatically base64 / URL decode any query parameter or JSON field with the name 'data' (if --decode used)
 - For POST requests, use JSON
 - If you're exfiling base64 encoded data, make sure it's in a query parameter or JSON field named 'data'
@@ -12,15 +10,15 @@ Author: boxalarm
 - Use https with --secure (must first generate self-signed cert - see below)
 
 Usage: 
-    python3 exfil_server.py --decode        # automatically base64 decodes anything in "data" query param / JSON field
-    python3 exfil_server.py -p 8080         # binds to port 8080
-    python3 exfil_server.py --secure        # uses HTTPS
-    python3 exfil_server.py -p 80 -s -d     # binds to port 80, uses HTTPS, auto decodes
+    python3 exfil_server.py --decode
+    python3 exfil_server.py -p 8080
+    python3 exfil_server.py --secure
+    python3 exfil_server.py -p 80 -s -d
 
-Example POST request (for testing):
+Example POST request:
     curl -X POST http://localhost:8085/ -H "Content-Type: application/json" -d '{"data": "test123"}'
 
-HTTPS setup (one-time) - generate self-signed cert (use with --secure):
+Generate self-signed cert (use with --secure):
     openssl req -new -x509 -keyout server.pem -out server.pem -days 365 -nodes
 """
 
@@ -123,8 +121,8 @@ if SECURE:
     except FileNotFoundError:
         print(f"{Fore.YELLOW}[-] server.pem not found - falling back to HTTP - generate self-signed cert with:{Style.RESET_ALL}")
         print("     openssl req -new -x509 -keyout server.pem -out server.pem -days 365 -nodes\n")
-
-print(f"[+] Server listening on http://0.0.0.0:{PORT} [Ctrl-C to quit]")
+else:
+    print(f"[+] Server listening on http://0.0.0.0:{PORT} [Ctrl-C to quit]")
 
 try:
     server.serve_forever()
