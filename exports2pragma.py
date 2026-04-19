@@ -23,13 +23,13 @@ def generate_pragmas(dll, exports):
 
 def parse_args():
     parser = argparse.ArgumentParser(description="Generate C/C++ #pragma comments to proxy DLL exports for sideloading")
-    parser.add_argument('-dll', help="DLL Name", required=True)
+    parser.add_argument('-d', '--dll', help="DLL Name", required=True)
     return parser.parse_args()
 
 if __name__ == "__main__":
     args = parse_args()
-    export = grab_exports(args.dll)
-    pragma = generate_pragmas(args.dll, export)
+    exports = grab_exports(args.dll)
+    pragmas = generate_pragmas(args.dll, exports)
 
-    for p in pragma:
+    for p in pragmas:
         print(p)
